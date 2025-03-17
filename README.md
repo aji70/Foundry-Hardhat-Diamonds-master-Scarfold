@@ -33,6 +33,8 @@ Then run
 $ forge build
 ```
 
+### Hardhat
+
 ```bash
 $ npx hardhat compile
 ```

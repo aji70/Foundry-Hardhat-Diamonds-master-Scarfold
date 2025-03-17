@@ -1,4 +1,5 @@
 [![Mentioned in Awesome Foundry](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/crisgarner/awesome-foundry)
+
 # Foundry + Hardhat Diamonds
 
 This is a mimimal template for [Diamonds](https://github.com/ethereum/EIPs/issues/2535) which allows facet selectors to be generated on the go in solidity tests!
@@ -13,6 +14,24 @@ $ yarn && forge update
 ```
 
 ### Compile
+
+### Foundry
+
+```bash
+$ forge build
+```
+
+### If you encounter Source "forge-std/Test.sol" not found: File not found.
+
+```bash
+forge install foundry-rs/forge-std
+```
+
+Then run
+
+```bash
+$ forge build
+```
 
 ```bash
 $ npx hardhat compile

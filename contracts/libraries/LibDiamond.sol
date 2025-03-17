@@ -21,26 +21,30 @@ library LibDiamond {
     error NonEmptyCalldata();
     error EmptyCalldata();
     error InitCallFailed();
+
+    // A storage slot constant that uniquely identifies the location of diamond storage in contract storage.
     bytes32 constant DIAMOND_STORAGE_POSITION =
         keccak256("diamond.standard.diamond.storage");
 
+    // Maps function selectors (unique identifiers for functions) to their corresponding facet addresses and positions.
     struct FacetAddressAndPosition {
         address facetAddress;
         uint96 functionSelectorPosition; // position in facetFunctionSelectors.functionSelectors array
     }
 
+    // Maps facet addresses to function selectors.
     struct FacetFunctionSelectors {
         bytes4[] functionSelectors;
         uint256 facetAddressPosition; // position of facetAddress in facetAddresses array
     }
-
+    // DiamondStorage: Stores the entire Diamond contract's state.
     struct DiamondStorage {
         // maps function selector to the facet address and
         // the position of the selector in the facetFunctionSelectors.selectors array
         mapping(bytes4 => FacetAddressAndPosition) selectorToFacetAndPosition;
         // maps facet addresses to function selectors
         mapping(address => FacetFunctionSelectors) facetFunctionSelectors;
-        // facet addresses
+        // facetAddresses: Stores all facet contract addresses.
         address[] facetAddresses;
         // Used to query if a contract implements an interface.
         // Used to implement ERC-165.
@@ -49,6 +53,7 @@ library LibDiamond {
         address contractOwner;
     }
 
+    // Retrieves the Diamond storage struct from the storage slot. Uses inline assembly for efficiency.
     function diamondStorage()
         internal
         pure
@@ -88,6 +93,7 @@ library LibDiamond {
     );
 
     // Internal function version of diamondCut
+    // Handles adding, replacing, and removing functions dynamically.
     function diamondCut(
         IDiamondCut.FacetCut[] memory _diamondCut,
         address _init,
